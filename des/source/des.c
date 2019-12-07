@@ -4,10 +4,15 @@
 #include "des.h"
 #include "des_internals.h"
 
-int Encrypt(void) {
+DES_STATUS Encrypt(
+    const uint8_t*  buffer, 
+    const uint64_t  buffer_size, 
+    const uint8_t   key[8],
+    uint8_t**       cipher,
+    uint64_t*       cipher_size
+) {
     printf("Encrypt\n");
-    printf("Initial Permutation: %d\n", initial_permutation[0]);
-    return 0;
+    return DES_SUCCESS;
 }
 
 int Decrypt(void) {

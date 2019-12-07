@@ -13,20 +13,32 @@
 #ifndef DES_H_
 #define DES_H_
 
+#include <stdint.h>
+
+typedef enum _DES_STATUS {
+    DES_SUCCESS = 0,
+} DES_STATUS;
+
 /**
- * @brief Encrypt
+ * @brief Encrypts @p buffer using @p key and returns the ciphered buffer on 
+ *        @p cipher
  * 
- * @param[in]
- * @param[in]
- * @param[out]
+ * @param[in]  buffer       Buffer of bytes to be encrypted
+ * @param[in]  buffer_size  Size of @p buffer
+ * @param[in]  key          8-byte key used to encrypt @p buffer
+ * @param[out] cipher       Cipher resulted from @p buffer encryption
+ * @param[out] cipher_size  Size of @p cipher
  *
- * @return
+ * @return Returns @p DES_SUCCESS on a successful buffer encryption, or an error 
+ *         code otherwise.
  */
-int Encrypt(void);
-// int Encrypt(uint8_t plain_text[], uint8_t key[], uint8_t block_cipher[]);
-// int Encrypt(uint64_t plain_text, uint64_t key, uint64_t block_cipher);
-// int Encrypt(uint64_t plain_text[], uint64_t key, uint64_t block_cipher[]);
-// int Encrypt(void* plain_text, size_t plain_text_size, void* key, void* block_cipher, size_t block_cipher_size);
+DES_STATUS Encrypt(
+    const uint8_t*  buffer, 
+    const uint64_t  buffer_size, 
+    const uint8_t   key[8],
+    uint8_t**       cipher,
+    uint64_t*       cipher_size
+);
 
 /**
  * @brief Decrypt

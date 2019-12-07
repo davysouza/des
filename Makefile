@@ -8,9 +8,9 @@ DES_DEPS=des/source/des.c des/include/des.h
 
 OBJS=main.o des.o
 
-all: des test_des clean
+all: des_lib test_des clean
 
-des: ${DES_DEPS}
+des_lib: ${DES_DEPS}
 	@echo "Compiling DES library"
 	mkdir -p build
 	$(CC) ${CFLAGS} -c des/source/des.c
