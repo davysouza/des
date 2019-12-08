@@ -1,6 +1,8 @@
 #ifndef DES_INTERNALS_H_
 #define DES_INTERNALS_H_
 
+#define BLOCK_SIZE 64
+
 /**
  * @brief Initial permutation table
  */
@@ -134,5 +136,62 @@ const uint8_t s_boxes[8][4][16] = {
     { 2,  1, 14,  7,  4, 10,  8, 13, 15, 12,  9,  0,  3,  5,  6, 11}
   },
 };
+
+/**
+ * @brief Print block in hex format
+ * 
+ * @param[in] label       Label to identify the block
+ * @param[in] block       Block to be printed
+ * @param[in] block_size  Size of @p block
+ */
+void PrintBlockHex (
+    const char*    label,
+    const uint8_t* block,
+    const uint32_t block_size
+  );
+
+/**
+ * @brief Convert a block to a 64-bit value. The block must be at most 8 bytes 
+ *        (64 bits).
+ * 
+ * @param[in]  block       Pointer to the block to be converted
+ * @param[in]  block_size  Size of @p block (bits)
+ * @param[out] value       64-bit variable representing the block
+ */
+void ConvertBlockToValue (
+    const uint8_t* block, 
+    uint64_t       block_size, 
+    uint64_t*      value
+  );
+
+/**
+ * @brief Convert a 64-bit value to a block.
+ * 
+ * @param[in]  value       Value to be converted
+ * @param[in]  value_size  Size of @p value (bits)
+ * @param[out] block       Block representation of @p value
+ */
+void ConvertValueToBlock (
+    const uint64_t value, 
+    uint64_t       value_size, 
+    uint8_t*       block
+  );
+
+/**
+ * @brief Permute bits of @p block using the permutation table specified
+ * 
+ * @details Shift the bits of @p block, according to the permutation table 
+ * 
+ * @param[in]  block            Block to be permutated
+ * @param[in]  permutation      Permutation table
+ * @param[in]  permutation_size Permutation table size
+ * @param[out] result           Permutated block
+ */
+void Permutation (
+    uint8_t*       block,
+    const uint8_t* permutation,
+    uint64_t       permutation_size,
+    uint8_t*       result
+  );
 
 #endif  // DES_INTERNALS_H_

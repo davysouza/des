@@ -32,13 +32,13 @@ typedef enum _DES_STATUS {
  * @return Returns @p DES_SUCCESS on a successful buffer encryption, or an error 
  *         code otherwise.
  */
-DES_STATUS Encrypt(
+DES_STATUS Encrypt (
     const uint8_t*  buffer, 
     const uint64_t  buffer_size, 
     const uint8_t   key[8],
     uint8_t**       cipher,
     uint64_t*       cipher_size
-);
+  );
 
 /**
  * @brief Decrypt
