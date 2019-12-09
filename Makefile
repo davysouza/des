@@ -1,8 +1,10 @@
 CC=gcc
 
+BUILD_TYPE?=RELEASE
+
 BUILD_DIR=./build
 INCLUDE_DIR=./des/include
-CFLAGS=-Wall -g -I${INCLUDE_DIR}
+CFLAGS=-Wall -g -I${INCLUDE_DIR} -D${BUILD_TYPE}
 
 DES_DEPS=des/source/des.c des/include/des.h
 

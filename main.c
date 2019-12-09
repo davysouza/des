@@ -31,6 +31,11 @@ int main(void) {
     uint64_t cipher_size = 0;
     status = Encrypt(block, 8, key, &cipher, &cipher_size);
 
+    printf("\n\nCipher: ");
+    for(int i = 0; i < 8; i++)
+        printf("0x%02X ", cipher[i]);
+    printf("\n\n");
+
     // TODO: Decrypt
 
     if(cipher != NULL) {

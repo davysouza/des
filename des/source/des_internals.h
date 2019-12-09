@@ -194,4 +194,89 @@ void Permutation (
     uint8_t*       result
   );
 
+/**
+ * @brief Split a 56-bit key into two 28-bit keys left aligned
+ * 
+ * @param[in]  key       56-bit key to be splited
+ * @param[out] left_key  left key
+ * @param[out] right_key right key
+ */
+void KeySplit (
+    uint8_t* key,
+    uint8_t* left_key, 
+    uint8_t* right_key
+  );
+
+/**
+ * @brief Concatenate a two 28-bit keys into a single 56-bit key (left aligned)
+ * 
+ * @param[in]  left_key         Left 28-bit key to be concatenated
+ * @param[in]  right_key        Right 28-bit key to be concatenated
+ * @param[out] concatenated_key 56-bit key returned
+ */
+void Concatenate56BitKey (
+    uint8_t left_key[4],
+    uint8_t right_key[4],
+    uint8_t concatenated_key[8]
+  );
+
+/**
+ * @brief Makes a left cycle shift at @p key generating @p new_key
+ * 
+ * @param[in]  key     key to be shifted
+ * @param[out] new_key Left cycle shifted key
+ */
+void KeyLeftCycleShift (
+    const uint8_t key[4], 
+    uint8_t       new_key[4]
+  );
+
+/**
+ * @brief Generate subkey
+ * 
+ * @details Generate a subkey based on the key of the previous round
+ * 
+ * @param[in,out] C     C-Array containing the 28-bit subkeys of all previous 
+ *                      rounds and where the current subkey will be stored
+ * @param[in,out] D     D-Array containing the 28-bit subkeys of all previous
+ *                      rounds and where the current subkey will be stored
+ * @param[in]     round Current round
+ */
+void GenerateSubkey (
+    uint8_t C[17][4],
+    uint8_t D[17][4],
+    uint8_t round
+  );
+
+/**
+ * @brief Generate a 48-bit key making a permutation with PC-2 table and the 
+ *        28-bit subkeys of the current round
+ * 
+ * @param[in]  C         C-Array containing all 28-bit subkeys up to the current
+ *                       round
+ * @param[in]  D         D-Array containing all 28-bit subkeys up to the current
+ *                       round 
+ * @param[in]  round     Current round
+ * @param[out] key_48bit 48-bit key generated
+ */
+void Generate48BitKey (
+    uint8_t C[17][4], 
+    uint8_t D[17][4],
+    uint8_t round,
+    uint8_t key_48bit[16][6]
+  );
+
+/**
+ * @brief Feistel function
+ * 
+ * @param[in]  right          Right half of bytes to be used on Feistel function
+ * @param[in]  key            48-bit key to be used on Feistel function
+ * @param[out] feistel_cipher Feistel cipher generated
+ */
+void Feistel (
+    uint8_t       right[4], 
+    const uint8_t key[6], 
+    uint8_t       feistel_cipher[4]
+  );
+
 #endif  // DES_INTERNALS_H_
