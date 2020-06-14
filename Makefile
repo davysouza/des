@@ -23,7 +23,7 @@ DES_DEPS = des/source/des.c des/include/des.h
 # objects
 OBJS = main.o des.o
 
-# compiling lib and main_tests
+# compiling lib, main_tests and execute tests
 all: clean lib tests run_main_tests
 
 # compiling des lib
