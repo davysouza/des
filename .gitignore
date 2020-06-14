@@ -1,3 +1,6 @@
 docs/*
 build/*
 *.out
+*.so*
+tests
+main_tests

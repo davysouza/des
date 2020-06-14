@@ -13,7 +13,5 @@ jobs:
       run: make lib
     - name: create tests
       run: make tests
-    - name: create all
-      run: make all
-    - name: execute tests
-      run: ./tests
+    - name: execute main tests
+      run: make run_main_tests

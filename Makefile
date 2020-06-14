@@ -1,31 +1,49 @@
-CC=gcc
+# compiler
+CC = gcc
 
-BUILD_TYPE?=RELEASE
+# project paths
+BUILD_DIR = ./build
+INCLUDE_DIR = ./des/include
 
-BUILD_DIR=./build
-INCLUDE_DIR=./des/include
-CFLAGS=-Wall -g -I${INCLUDE_DIR} -D${BUILD_TYPE}
+# compiler flags
+CFLAGS = -fPIC -Wall -g -I${INCLUDE_DIR} -D${BUILD_TYPE}
 
-DES_DEPS=des/source/des.c des/include/des.h
+# lib infos
+MAJOR = 0
+MINOR = 2
+NAME  = simpledes
+VERSION = $(MAJOR).$(MINOR)
 
-OBJS=main.o des.o
+# build type
+BUILD_TYPE ?= RELEASE
 
-all: des_lib test_des clean
+# library files
+DES_DEPS = des/source/des.c des/include/des.h
 
-des_lib: ${DES_DEPS}
-	@echo "Compiling DES library"
+# objects
+OBJS = main.o des.o
+
+# compiling lib and main_tests
+all: clean lib tests run_main_tests
+
+# compiling des lib
+lib: lib$(NAME).so.$(VERSION)
+
+# compiling main tests
+run_main_tests: 
+	LD_LIBRARY_PATH=. ./main_tests
+
+tests: lib$(NAME).so
+	$(CC) ${CFLAGS} main.c -o main_$@ -L. -l$(NAME)
+
+# creating a symbolic link for lib
+lib$(NAME).so: lib$(NAME).so.$(VERSION)
+	ldconfig -v -n .
+	ln -s lib$(NAME).so.$(MAJOR) lib$(NAME).so
+
+lib$(NAME).so.$(VERSION): ${DES_DEPS}
 	mkdir -p build
-	$(CC) ${CFLAGS} -c des/source/des.c
-
-test_des: ${OBJS}
-	@echo "Compiling tests"
-	mkdir -p build
-	$(CC) ${CFLAGS} main.o des.o -o ${BUILD_DIR}/test_des
+	$(CC) ${CFLAGS} -shared -Wl,-soname,lib$(NAME).so.$(MAJOR) $^ -o $@
 
 clean:
-	@echo "Cleaning directory"
-	rm -f ./*.o ./*.dat
-
-clean_build:
-	@echo "Cleaning all build files"
-	rm -f ${BUILD_DIR}/*
+	rm -f ./*.o ./*.dat ./*.so.* ./*.so ./main_tests
