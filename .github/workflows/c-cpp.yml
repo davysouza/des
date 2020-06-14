@@ -1,0 +1,17 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: create lib
+      run: make lib
+    - name: create tests
+      run: make tests
+    - name: execute main tests
+      run: make run_main_tests
