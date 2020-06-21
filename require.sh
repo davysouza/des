@@ -1,8 +1,10 @@
+#! /bin/sh
+
 # install dependencies
-sudo apt install gcc g++ libgtest-dev -y
+sudo apt install gcc g++ libgtest-dev
 
 # install cmake
-sudo apt-get install cmake -y
+sudo apt install cmake
 
 # compile gtest
 cd /usr/src/gtest
