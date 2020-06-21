@@ -4,3 +4,4 @@ build/*
 *.so*
 tests
 main_tests
+unit_tests

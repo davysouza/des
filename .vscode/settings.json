@@ -1,5 +1,10 @@
 {
     "files.associations": {
         "stdlib.h": "c"
-    }
+    },
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/des/include",
+        "C:/Projects/googletest/googletest/include"
+    ]
 }
