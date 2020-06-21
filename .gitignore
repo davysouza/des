@@ -2,5 +2,5 @@ docs/*
 build/*
 *.out
 *.so*
-tests
 main_tests
+unit_tests

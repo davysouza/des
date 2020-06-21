@@ -9,9 +9,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: create lib
+
+    - name: Setting up environment
+      run: ./require.sh
+
+    - name: Compiling lib
       run: make lib
-    - name: create tests
+
+    - name: Compiling tests
       run: make tests
-    - name: execute main tests
+
+    - name: Compiling unit tests
+      run: make unit_tests
+
+    - name: Executing main tests
       run: make run_main_tests
+      
+    - name: Executing unit tests
+      run: make run_unit_tests
