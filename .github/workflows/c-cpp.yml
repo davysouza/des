@@ -20,7 +20,11 @@ jobs:
       run: make tests
 
     - name: Compiling unit tests
-      run: make unit_tests
+      run: |
+        pwd
+        ls -la
+        ls /usr/lib/
+        make unit_tests
 
     - name: Executing main tests
       run: make run_main_tests
