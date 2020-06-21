@@ -1,5 +1,3 @@
-#! /bin/sh
-
 # install dependencies
 sudo apt install gcc g++ libgtest-dev -y
 
