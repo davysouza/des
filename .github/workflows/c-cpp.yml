@@ -1,0 +1,29 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setting up environment
+      run: ./require.sh
+
+    - name: Compiling lib
+      run: make lib
+
+    - name: Compiling tests
+      run: make tests
+
+    - name: Compiling unit tests
+      run: make unit_tests
+
+    - name: Executing main tests
+      run: make run_main_tests
+      
+    - name: Executing unit tests
+      run: make run_unit_tests

@@ -1,31 +1,58 @@
-CC=gcc
+# compiler
+CC = gcc
 
-BUILD_TYPE?=RELEASE
+# project paths
+BUILD_DIR = ./build
+INCLUDE_DIR = ./des/include
 
-BUILD_DIR=./build
-INCLUDE_DIR=./des/include
-CFLAGS=-Wall -g -I${INCLUDE_DIR} -D${BUILD_TYPE}
+# compiler flags
+CFLAGS = -fPIC -Wall -g -I${INCLUDE_DIR} -D${BUILD_TYPE}
 
-DES_DEPS=des/source/des.c des/include/des.h
+# lib infos
+MAJOR = 0
+MINOR = 2
+NAME  = simpledes
+VERSION = $(MAJOR).$(MINOR)
 
-OBJS=main.o des.o
+# build type
+BUILD_TYPE ?= RELEASE
 
-all: des_lib test_des clean
+# library files
+DES_DEPS = des/source/des.c des/include/des.h
 
-des_lib: ${DES_DEPS}
-	@echo "Compiling DES library"
-	mkdir -p build
-	$(CC) ${CFLAGS} -c des/source/des.c
+# objects
+OBJS = main.o des.o
 
-test_des: ${OBJS}
-	@echo "Compiling tests"
-	mkdir -p build
-	$(CC) ${CFLAGS} main.o des.o -o ${BUILD_DIR}/test_des
+# compiling lib, main_tests and execute tests
+all: clean lib tests unit_tests
+
+run_main: clean lib tests unit_tests run_main_tests
+
+run_unit_tests: clean lib tests unit_tests run_unit_tests
+
+# compiling des lib
+lib: lib$(NAME).so.$(VERSION)
+
+# compiling main tests
+run_main_tests: 
+	LD_LIBRARY_PATH=. ./main_tests
+
+run_unit_tests: 
+	LD_LIBRARY_PATH=. ./unit_tests
+
+tests: lib$(NAME).so
+	$(CC) ${CFLAGS} main.c -o main_$@ -L. -l$(NAME)
+
+unit_tests: lib$(NAME).so
+	g++ tests/tests.cpp -I. -I./des/include -lgtest -pthread -L. -l$(NAME) -o unit_tests
+
+# creating a symbolic link for lib
+lib$(NAME).so: lib$(NAME).so.$(VERSION)
+	ldconfig -v -n .
+	ln -s lib$(NAME).so.$(MAJOR) lib$(NAME).so
+
+lib$(NAME).so.$(VERSION): ${DES_DEPS}
+	$(CC) ${CFLAGS} -shared -Wl,-soname,lib$(NAME).so.$(MAJOR) $^ -o $@
 
 clean:
-	@echo "Cleaning directory"
-	rm -f ./*.o ./*.dat
-
-clean_build:
-	@echo "Cleaning all build files"
-	rm -f ${BUILD_DIR}/*
+	rm -f ./*.o ./*.dat ./*.so.* ./*.so ./main_tests ./unit_tests
